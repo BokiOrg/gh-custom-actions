@@ -24,6 +24,5 @@ runs:
       id: install
       run: |
         npm ci
-#        echo "step-result=success" >> $GITHUB_OUTPUT
-        echo "cache=${{ inputs.caching }}" >> $GITHUB_OUTPUT
+        echo "cache='${{ inputs.caching }}'" >> $GITHUB_OUTPUT
       shell: bash
