@@ -19,6 +19,7 @@ runs:
       with:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      run: echo "cache='${{ inputs.caching }}'" >> $GITHUB_OUTPUT
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       id: install
