@@ -1,6 +1,8 @@
 import os
 import boto3
+import mimetypes
 from botocore.config import Config
+from pathlib import Path
 
 
 def run():
@@ -14,7 +16,13 @@ def run():
 
     for root, sub_dirs, files in os.walk(dist_folder):
         for file in files:
-            s3_client.upload_file(os.path.join(root, file), bucket, file)
+            file_path = str(Path(root) / file)
+            content_type, _ = mimetypes.guess_type(file_path)
+            if content_type is None:
+                content_type = 'binary/octet-stream'
+
+            with open(file_path, 'rb') as data:
+                s3_client.upload_fileobj(data, bucket, file, ExtraArgs={'ContentType': content_type})
 
     website_url = f'http://{bucket}.s3-website-{bucket_region}.amazonaws.com'
 
