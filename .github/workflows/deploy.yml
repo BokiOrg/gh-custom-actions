@@ -56,7 +56,9 @@ jobs:
   deploy:
     permissions:
       id-token: write
-      contents: read
+      contents: write
+      deployments: write
+      packages: write
     needs: build
     runs-on: ubuntu-latest
     steps:
